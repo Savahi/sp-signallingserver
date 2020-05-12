@@ -1,7 +1,8 @@
-﻿'use strict';
+﻿const express = require('express');
+//const { Server } = require('ws');
 
 const express = require('express');
-//const { Server } = require('ws');
+const { Server } = require('ws');
 
 const PORT = process.env.PORT || 9090;
 const INDEX = '/index.html';
@@ -10,11 +11,9 @@ const server = express()
   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-//require our websocket library 
-const WebSocketServer = require('ws').Server;
- 
+const wss = new Server({ server }); 
 //creating a websocket server at port 9090 
-var wss = new WebSocketServer({port: 9090}); 
+//var wss = new WebSocketServer(); 
 
 //all connected to the server users 
 var users = {};
