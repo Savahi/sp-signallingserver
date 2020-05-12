@@ -1,19 +1,18 @@
-﻿//const express = require('express');
-//const { Server } = require('ws');
+﻿var WebSocketServer = require("ws").Server
+var http = require("http")
+var express = require("express")
+var app = express()
+var port = process.env.PORT || 9090
 
-const express = require('express');
-const { Server } = require('ws');
+app.use(express.static(__dirname + "/"))
 
-const PORT = process.env.PORT || 9090;
-const INDEX = '/index.html';
+var server = http.createServer(app)
+server.listen(port)
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+console.log("http server listening on %d", port)
 
-const wss = new Server({ server }); 
-//creating a websocket server at port 9090 
-//var wss = new WebSocketServer(); 
+var wss = new WebSocketServer({server: server})
+console.log("websocket server created")
 
 //all connected to the server users 
 var users = {};
